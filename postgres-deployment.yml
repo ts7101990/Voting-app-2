@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  labels:
+    app: demo-voting-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: postgres-pod
+      app: demo-voting-app
+  template:
+    #Copy all the details from postgres-pod.yml file except the first 2 lines
+    metadata:
+      name: postgres-pod
+      labels:
+        name: postgres-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: postgres
+          #Copy the image from DockerHub
+          image: postgres:9.4
+          ports:
+            - containerPort: 5432
